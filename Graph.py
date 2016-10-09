@@ -4,7 +4,7 @@ class Graph(object):
         # The graph object assumes that you pass in a adjacency vertex matrix
     def __init__(self,adjList=None):
         if adjList is None:
-            self.setAdjList([])
+            self.setAdjList({})
         else:
             self.setAdjList(adjList)
         self.setVertexTable({})
