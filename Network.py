@@ -73,7 +73,7 @@ class Network(object):
 
 	def compute(self,inputData):
 		self.setInputLayer(inputData)
-		for vertex in self.getActiveVertices()
+		for vertex in self.getActiveVertices():
 			self.getData()[vertex] = self.activate(vertex,self.dot(vertex))
 		return self.getOutputLayer()
 
@@ -112,9 +112,9 @@ class Network(object):
 			self.getErrors()[vertex] = neuron.getError(output) * np.dot(
 				self.getErrors()[downstream],self.getWeights()[vertex,downstream])
 
-	def updateWeights(self)
+	def updateWeights(self):
 		deltaWeights = self.getLearningRate() * np.outer(self.getData(),self.getErrors())
-		self.getWeights() += deltaWeights
+		self.setWeights(self.getWeights() + deltaWeights)
 
 	def getDownstreamVertices(self,vertex):
 		# returns vertices immediately downstream from vertex
