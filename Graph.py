@@ -1,7 +1,8 @@
 # graph class
 
+
 class Graph(object):
-        # The graph object assumes that you pass in a adjacency vertex matrix
+    # The graph object assumes that you pass in a adjacency vertex matrix
     def __init__(self,adjList=None):
         if adjList is None:
             self.setAdjList({})
@@ -85,21 +86,30 @@ class LayeredGraph(DirectedGraph):
 
 
 class NeuralNetwork(LayeredGraph):
-    
-    def __init__(self):
+    # Class for implementing a neural network
+    # The neural network is represented as a graph with layers, and operates
+    # layer by layer in a feed-forward fashion.
+    # The output data, errors are stored within the neurons, themselves.
+
+
+    # TBD
+    def __init__(self,adjList=None,neuronType=None):
+        super().__init__(adjList)
         pass
 
     def pipe(self,vertex):
+        # Takes output data from a single vertex and pipes it to the next vertices
         nextVertexList = self.neighbors(vertex)
         output         = self.getVertexValue(vertex).getOutput()
         for nextVertex in nextVertexList:
             self.getVertexValue(nextVertex).addToInput(output)
 
     def setInputLayer(self,inputData):
+        # sets the first layer of the layer map to input
         inputLayer = self.getLayerMap()[0]
         for i in range(len(inputLayer)):
             vertex = inputLayer[i]
-            self.getVertexValue(vertex).setInput(inputData[i])
+            self.getVertexValue(vertex).setInput(inputData[i]) # setting input data of each neuron
 
     def compute(self,inputData):
         self.setInputLayer(inputData)                         # setting up input layer
@@ -116,6 +126,7 @@ class NeuralNetwork(LayeredGraph):
             self.updateWeights(learningRate)
 
     def getOutputError(self,example):
+        # computes the error for output layer neurons
         outputLayer = self.getLayerMap()[-1]
         index = 0
         for vertex in outputLayer:
@@ -151,7 +162,7 @@ class NeuralNetwork(LayeredGraph):
                 neuron = self.getVertexValue(vertex)
                 for nextVertex in self.neighbors(vertex):
                     delta = learningRate * self.getVertexValue(vertex).getError() * \
-                    self.getVertexValue(vertex).getInput()
+                            self.getVertexValue(vertex).getInput()
                     neuron[weightIndex] = neuron[weightIndex] + delta
                     weightIndex += 1
 
