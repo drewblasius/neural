@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class Network(object):
 
 	# NEW STRUCTURAL ORGANIZATION - FASTER THAN PREVIOUS VERSION 
@@ -12,6 +15,9 @@ class Network(object):
 	# self.__activeVertices : 1 x (n-k) array of vertex indices in active layer 
 	#			ie. neurons = self.data[(activeLayer,)] 
 
+	def __init__(self,inputLength=None,outputLength=None):
+		self.setInputLength(inputLength)
+		self.setOutputLength(outputLength)
 
 	# begin getter/setter methods
 	def setWeights(self,weights):
@@ -29,6 +35,14 @@ class Network(object):
 	def getNeurons(self):
 		# gets self.__neurons
 		return self.__neurons
+
+	def setData(self,data):
+		# sets self.__data
+		self.__data = data
+
+	def getData(self):
+		# gets data
+		return self.__data
 
 	def setInputLength(self,inputLength):
 		# sets self.__inputLength
@@ -48,6 +62,10 @@ class Network(object):
 
 	def setInputLayer(self,inputData):
 		# sets input layer of data
+		if self.getInputLength() is None:
+			self.setInputLength(len(inputData))
+		elif len(inputData) != self.getInputLength():
+			raise ValueError("InputData must have same length as self.inputLength")
 		self.getData()[:self.getInputLength()] = inputData
 
 	def setLearningRate(self,learningRate):
@@ -60,14 +78,20 @@ class Network(object):
 
 	def getOutputLayer(self):
 		# gets output layer of data
+		if self.getOutputLength() is None:
+			raise ValueError("OutputLength must be set before operation.")
 		return self.getData()[-self.getOutputLength():]
 
 	def getActiveVertices(self):
 		# gets array of active vertices
+		if self.getInputLength() is None:
+			raise ValueError("Input length must be set prior to operation")
 		return self.getVertices()[self.inputLength():]
 
 	def getOutputVertices(self):
 		# gets output vertices
+		if self.getOutputLength() is None:
+			raise ValueError("Output length must be set prior to operation.")
 		return self.getVertices()[-self.getOutputLength():]
 	# end getter/setter methods
 
@@ -121,3 +145,10 @@ class Network(object):
 		return self.getVertices()[np.where(self.getAdjMat()[vertex,:] == 1)]
 
 	# end support methods for backpropagation
+
+if __name__ == '__main__':
+	x = Network()
+	x.setData(np.zeros(10))
+	x.setInputLayer(np.array([1,2,3]))
+
+	print(x.getData())
