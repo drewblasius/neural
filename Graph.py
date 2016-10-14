@@ -11,7 +11,7 @@ class StaticGraph(object):
     def __init__(self,adjMat,vertices=None):
         self.setAdjMat(adjMat)
         if vertices is None:
-            self.setVertices([x for x in range(shape(adjMat)[0])])
+            self.setVertices([x for x in range(self.getAdjMat().shape[0])])
         else:
             self.setVertices(vertices)
 
@@ -39,9 +39,9 @@ class StaticGraph(object):
 
     def neighbors(self,vertex):
         # gets vertices adjacent to vertex
-        indices = np.where(self.getAdjMat()[vertex,:] == 1 
-                            or self.getAdjMat()[:,vertex] == 1)
-        return self.getVertices()[indices]
+        indices1 = np.where(self.getAdjMat()[vertex,:] == 1)
+        indices2 = np.where(self.getAdjMat()[:,vertex] == 1)
+        return np.union1d(self.getVertices()[indices1],self.getVertices()[indices2])
         
 
 class DirectedStaticGraph(StaticGraph):
