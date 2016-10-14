@@ -5,8 +5,8 @@ Neural Networks in Python
 
 Currently testing NeuralNetwork. Can implement cyclic/acyclic networks of aribtrary size, but does not provide functionality for adding/removing connections or neurons. This is to be added in future versions.
 
-* TODO *:
 
+** TODO **:
 * Finish NeuralNetwork constructor
 * Add code for network setup (ie. choosing/setting up neuron types)
 * Debug NeuralNetwork class
