@@ -8,9 +8,12 @@ class StaticGraph(object):
     #   or edges.
     # The adjacency matrix of the graph must be specified at initialization
 
-    def __init__(self,adjMat):
+    def __init__(self,adjMat,vertices=None):
         self.setAdjMat(adjMat)
-        self.setVertices([x for x in range(shape(adjMat))[0]])
+        if vertices is None:
+            self.setVertices([x for x in range(shape(adjMat)[0])])
+        else:
+            self.setVertices(vertices)
 
     def setAdjMat(self,adjMat):
         # setter for self.__adjMat
@@ -41,7 +44,6 @@ class StaticGraph(object):
         return self.getVertices()[indices]
         
 
-
 class DirectedStaticGraph(StaticGraph):
     # A directed static graph is a static graph but with the flexibility that 
     # the adjacency matrix of the graph need not be symmetric. 
@@ -50,12 +52,13 @@ class DirectedStaticGraph(StaticGraph):
 
     def getNext(self,vertex):
         # gets the vertices which are pointed to by x
-        indices = np.where(self.getAdjMat()[vertex,,:] == 1)
+        indices = np.where(self.getAdjMat()[vertex,:] == 1)
         return self.getVertices()[indices]
 
     def getPrev(self,vertex):
         # gets the vertices which point to x
         indices = np.where(self.getAdjMat()[:,vertex] == 1)
         return self.getVertices()[indices]
+
 
 
